@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+
+:root,
+[data-theme="light"] {
+  --color-black: #1a1a1a;
+  --color-dark: #2d2d2d;
+  --color-gray-900: #333333;
+  --color-gray-700: #555555;
+  --color-gray-500: #888888;
+  --color-gray-300: #d1d5db;
+  --color-gray-100: #f3f4f6;
+  --color-white: #ffffff;
+
+  --color-primary: #4fc3f7;
+  --color-primary-light: #80d6ff;
+  --color-primary-dark: #0093c4;
+
+  --color-subject-red: #ef5350;
+  --color-subject-orange: #ff7043;
+  --color-subject-green: #66bb6a;
+  --color-subject-purple: #ab47bc;
+  --color-subject-teal: #26a69a;
+  --color-subject-blue: #42a5f5;
+  --color-subject-pink: #ec407a;
+  --color-subject-amber: #ffca28;
+
+  --color-accent: var(--color-primary);
+  --color-success: #66bb6a;
+  --color-error: #ef5350;
+  --color-warning: #ffa726;
+
+  /* Semantic tokens - Light */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-tertiary: #888888;
+  --border-color: #e5e7eb;
+  --card-bg: #ffffff;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --header-bg: #1a1a1a;
+  --header-text: #ffffff;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Typography */
+--font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --sidebar-width: 280px;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #111111;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --text-primary: #f0f0f0;
+  --text-secondary: #a0a0a0;
+  --text-tertiary: #666666;
+  --border-color: #2a2a2a;
+  --card-bg: #1a1a1a;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --header-bg: #111111;
+  --header-text: #f0f0f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  line-height: 1.5;
+  min-height: 100vh;
+  transition: background var(--transition-base), color var(--transition-base);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font-body); cursor: pointer; border: none; outline: none; }
+input, textarea, select { font-family: var(--font-body); outline: none; }
+img { max-width: 100%; display: block; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--text-tertiary); border-radius: var(--radius-full); }
+
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-fade-in { animation: fadeIn var(--transition-base) forwards; }
+.animate-slide-up { animation: slideUp var(--transition-slow) forwards; }
+
+/* Layout with sidebar */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+  min-height: 100vh;
+}
+
+@media (min-width: 1024px) {
+  .app-content {
+    margin-left: var(--sidebar-width);
+  }
+}

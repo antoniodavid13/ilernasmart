@@ -1,0 +1,90 @@
+.splash-page {
+  min-height: 100vh;
+  background: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+}
+
+.splash-block {
+  position: absolute;
+  background: var(--color-primary);
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.block-1 { width: 120px; height: 40px; top: 15%; left: 5%; opacity: 0; animation-delay: 0.1s; }
+.block-2 { width: 80px; height: 35px; top: 25%; left: 20%; background: var(--color-gray-700); opacity: 0; animation-delay: 0.2s; }
+.block-3 { width: 150px; height: 45px; top: 35%; right: 10%; opacity: 0; animation-delay: 0.3s; }
+.block-4 { width: 90px; height: 30px; top: 50%; left: 15%; background: var(--color-white); opacity: 0; animation-delay: 0.4s; }
+.block-5 { width: 110px; height: 38px; top: 60%; right: 20%; background: var(--color-gray-700); opacity: 0; animation-delay: 0.5s; }
+.block-6 { width: 140px; height: 42px; bottom: 25%; left: 8%; opacity: 0; animation-delay: 0.6s; }
+.block-7 { width: 70px; height: 35px; bottom: 35%; right: 15%; background: var(--color-white); opacity: 0; animation-delay: 0.7s; }
+.block-8 { width: 100px; height: 30px; bottom: 15%; left: 30%; background: var(--color-gray-700); opacity: 0; animation-delay: 0.8s; }
+
+.splash-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  animation: scaleIn 0.8s ease forwards;
+}
+
+.splash-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.splash-ilerna {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--color-white);
+  letter-spacing: 6px;
+}
+
+.splash-smart {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: -10px;
+  font-style: italic;
+}
+
+.splash-loader {
+  width: 120px;
+  height: 3px;
+  background: var(--color-gray-700);
+  border-radius: var(--radius-full);
+  margin: var(--space-xl) auto 0;
+  overflow: hidden;
+}
+
+.splash-loader-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: loadProgress 2s ease forwards;
+}
+
+@keyframes loadProgress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@media (min-width: 768px) {
+  .splash-ilerna { font-size: 6rem; }
+  .splash-smart { font-size: 4rem; }
+  .block-1 { width: 200px; height: 60px; }
+  .block-3 { width: 250px; height: 65px; }
+  .block-6 { width: 220px; height: 55px; }
+}

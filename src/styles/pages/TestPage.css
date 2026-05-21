@@ -1,0 +1,289 @@
+.test-page {
+  min-height: 100vh;
+  background: var(--color-white);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Loading ── */
+.test-loading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  color: var(--color-black);
+}
+
+.test-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid var(--color-gray-300);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.test-loading p { font-weight: 600; font-size: 1.1rem; }
+.test-loading-sub { font-weight: 400; font-size: 0.85rem; color: var(--color-gray-500); margin-top: -8px; }
+
+/* ── Header ── */
+.test-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.test-back {
+  background: none;
+  color: var(--color-black);
+  padding: var(--space-sm);
+}
+
+.test-progress { flex: 1; }
+
+.test-progress-bar {
+  height: 6px;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.test-progress-fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-base);
+}
+
+.test-progress-text {
+  font-size: 0.8rem;
+  color: var(--color-gray-500);
+  font-weight: 600;
+  margin-top: 4px;
+  display: block;
+  text-align: right;
+}
+
+/* ── Question ── */
+.test-main {
+  flex: 1;
+  padding: var(--space-xl) var(--space-lg);
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.test-question-text {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: var(--space-xl);
+  line-height: 1.5;
+}
+
+.test-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.test-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 2px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.test-option:hover {
+  border-color: var(--color-gray-500);
+  background: var(--color-gray-100);
+}
+
+.test-option.selected {
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 8%, white);
+}
+
+.test-option-letter {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-gray-700);
+  flex-shrink: 0;
+}
+
+.test-option.selected .test-option-letter {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.test-option-text {
+  padding-top: 4px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ── Footer ── */
+.test-footer {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--color-gray-100);
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.test-nav-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  transition: all var(--transition-fast);
+}
+
+.test-nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.test-nav-btn.primary {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.test-nav-btn.submit {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.test-nav-btn.submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* ── Result ── */
+.test-result {
+  padding: var(--space-xl) var(--space-lg);
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  animation: slideUp 0.5s ease;
+}
+
+.result-header {
+  text-align: center;
+  padding: var(--space-xl) 0;
+}
+
+.result-icon { color: var(--color-accent); margin-bottom: var(--space-md); }
+
+.result-header h2 { font-size: 1.5rem; margin-bottom: var(--space-md); }
+
+.result-score {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+}
+
+.result-score-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+.result-score-total {
+  font-size: 1.5rem;
+  color: var(--color-gray-500);
+  font-weight: 600;
+}
+
+.result-summary {
+  color: var(--color-gray-500);
+  margin-top: var(--space-sm);
+}
+
+.result-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0;
+}
+
+.result-item {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border-left: 4px solid;
+}
+
+.result-item.correct { background: #e8f5e9; border-color: var(--color-success); }
+.result-item.incorrect { background: #fdecea; border-color: var(--color-error); }
+
+.result-item-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.result-correct { color: var(--color-success); }
+.result-incorrect { color: var(--color-error); }
+
+.result-item-number { font-weight: 700; font-size: 0.85rem; }
+.result-item-question { font-weight: 600; margin-bottom: var(--space-sm); }
+
+.result-item-answers {
+  font-size: 0.85rem;
+  color: var(--color-gray-700);
+}
+
+.result-item-answers p { margin-bottom: 4px; }
+
+.result-item-explanation {
+  margin-top: var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--color-gray-700);
+  font-style: italic;
+  padding-top: var(--space-sm);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.result-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.result-btn-back, .result-btn-retry {
+  flex: 1;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.result-btn-back {
+  background: var(--color-gray-100);
+  color: var(--color-black);
+}
+
+.result-btn-retry {
+  background: var(--color-accent);
+  color: var(--color-white);
+}

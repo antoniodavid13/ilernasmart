@@ -1,0 +1,236 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ── Lado izquierdo (branding) ── */
+.auth-left {
+  display: none;
+  width: 45%;
+  background: var(--color-black);
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-brand {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-brand-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-brand-title span:first-child {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--color-white);
+  letter-spacing: 6px;
+}
+
+.auth-brand-smart {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-top: -8px;
+  font-style: italic;
+}
+
+.auth-decorations {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+}
+
+.auth-deco-block {
+  position: absolute;
+}
+
+.deco-1 {
+  width: 180px; height: 50px;
+  background: var(--color-primary);
+  top: 20%; left: 5%;
+}
+.deco-2 {
+  width: 120px; height: 40px;
+  background: var(--color-gray-700);
+  top: 30%; left: 25%;
+}
+.deco-3 {
+  width: 200px; height: 55px;
+  background: var(--color-white);
+  top: 55%; right: 10%;
+}
+.deco-4 {
+  width: 90px; height: 35px;
+  background: var(--color-primary);
+  bottom: 25%; left: 15%;
+}
+.deco-5 {
+  width: 150px; height: 45px;
+  background: var(--color-gray-700);
+  bottom: 15%; right: 20%;
+}
+
+/* ── Lado derecho (formulario) ── */
+.auth-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  padding: var(--space-lg);
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 400px;
+  animation: slideUp 0.5s ease forwards;
+}
+
+.auth-form-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-sm);
+}
+
+.auth-form-title {
+  font-size: 2rem;
+  color: var(--color-black);
+  margin-bottom: var(--space-xl);
+}
+
+.auth-error {
+  background: #fdecea;
+  color: var(--color-error);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  margin-bottom: var(--space-md);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-sm);
+  padding: 0 var(--space-md);
+  transition: border-color var(--transition-fast);
+  background: var(--color-white);
+}
+
+.input-group:focus-within {
+  border-color: var(--color-primary);
+}
+
+.input-icon {
+  color: var(--color-gray-500);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.input-group input {
+  flex: 1;
+  border: none;
+  padding: 14px var(--space-sm);
+  font-size: 0.95rem;
+  color: var(--color-black);
+  background: transparent;
+}
+
+.input-group input::placeholder {
+  color: var(--color-gray-500);
+}
+
+.input-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px;
+}
+
+.input-toggle svg {
+  font-size: 1rem;
+}
+
+.role-selector {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.role-btn {
+  flex: 1;
+  padding: 12px;
+  border: 1.5px solid var(--color-gray-300);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-gray-700);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.role-btn.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--color-black);
+  color: var(--color-white);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  margin-top: var(--space-sm);
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background: var(--color-dark);
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: var(--space-lg);
+  color: var(--color-gray-500);
+  font-size: 0.9rem;
+}
+
+.auth-switch a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ── Desktop ── */
+@media (min-width: 768px) {
+  .auth-left {
+    display: flex;
+  }
+}
