@@ -1,18 +1,109 @@
-# React + Vite
+# IlernaSmart Web — Frontend React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web de la plataforma educativa IlernaSmart. Interfaz para estudiantes, profesores y administradores que permite gestionar asignaturas, documentos, tests y el módulo de repaso inteligente con IA.
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 18
+- Vite
+- React Router v6
+- Axios
+- Lucide React (iconos)
+- React Icons
+- CSS modular
 
-## React Compiler
+## Funcionalidad por rol
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Estudiante
+- Consultar asignaturas matriculadas
+- Ver documentos por temas y subtemas
+- Realizar tests generados por IA
+- Ver calificaciones e historial de intentos
+- Módulo de repaso inteligente adaptado a sus fallos
 
-Note: This will impact Vite dev & build performances.
+### Profesor
+- Gestionar asignaturas y clases
+- Crear temas y subir documentos PDF
+- Consultar calificaciones de sus alumnos por asignatura
+- Ver detalle de cada intento de sus alumnos
 
-## Expanding the ESLint configuration
+### Administrador
+- Gestión completa de usuarios, clases y asignaturas
+- Panel de administración
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Estructura del proyecto
+
+```
+src/
+├── api/
+│   └── api.js              # Cliente Axios, interceptores y métodos API
+├── context/
+│   ├── AuthContext.jsx      # Contexto de autenticación
+│   ├── ThemeContext.jsx     # Contexto de tema y colores
+│   └── ClassContext.jsx     # Contexto de clase activa
+├── pages/
+│   ├── LoginPage.jsx
+│   ├── HomePage.jsx
+│   ├── SubjectPage.jsx
+│   ├── DocumentViewerPage.jsx
+│   ├── TestPage.jsx
+│   ├── GradesPage.jsx
+│   ├── ProfilePage.jsx
+│   ├── RepasoPage.jsx
+│   ├── RepasoSubjectPage.jsx
+│   ├── RepasoTestPage.jsx
+│   ├── AdminPage.jsx
+│   ├── ClassSelectPage.jsx
+│   └── ServiceDownScreen.jsx  # Pantalla de error por microservicio caído
+├── components/
+│   └── layout/
+│       └── Sidebar.jsx
+└── styles/
+    ├── global.css
+    └── pages/
+```
+
+## Configuración
+
+La URL base de la API apunta al API Gateway:
+
+```js
+// src/api/api.js
+const API_BASE = 'http://localhost:8080';
+```
+
+## Requisitos previos
+
+- Node.js 18+
+- npm 9+
+- API Gateway en marcha en el puerto 8080
+
+## Instalación y arranque
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/antoniodavid13/ilernasmart.git
+cd ilernasmart
+
+# Instalar dependencias
+npm install
+
+# Arrancar en modo desarrollo
+npm run dev
+```
+
+La aplicación arranca en `http://localhost:5173`.
+
+## Compilar para producción
+
+```bash
+npm run build
+```
+
+## Gestión de errores de red
+
+La aplicación detecta automáticamente cuando un microservicio no está disponible y muestra una pantalla de error personalizada indicando qué servicio ha fallado, el código HTTP recibido y sugerencias para resolverlo. Al pulsar "Reintentar" se limpia el error y se puede volver a usar la app.
+
+## Autenticación
+
+El token JWT se almacena en `localStorage` bajo la clave `accessToken`. Todos los interceptores de Axios lo añaden automáticamente en la cabecera `Authorization: Bearer <token>` de cada petición.
