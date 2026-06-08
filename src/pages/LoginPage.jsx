@@ -19,8 +19,8 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/home');
-    } catch (err) {
+      const destination = userData.role === 'admin' ? '/admin' : '/home';
+      navigate(destination);    } catch (err) {
       setError(err.response?.data?.message || 'Email o contraseña incorrectos');
     } finally {
       setLoading(false);
@@ -92,10 +92,6 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="auth-switch">
-            ¿No tienes cuenta?{' '}
-            <Link to="/register">Regístrate</Link>
-          </p>
         </div>
       </div>
     </div>

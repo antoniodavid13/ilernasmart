@@ -1,0 +1,266 @@
+.repaso-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.2rem;
+}
+
+.repaso-stat {
+  flex: 1;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 0.9rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.repaso-stat-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.repaso-stat-label {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+
+.repaso-question-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.repaso-question-item:last-of-type {
+  border-bottom: none;
+}
+
+.repaso-question-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+
+.repaso-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.repaso-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  padding: 7px 10px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  border: 1px solid transparent;
+}
+
+.repaso-option-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 18px;
+}
+
+.option-wrong {
+  background: rgba(220, 38, 38, 0.08);
+  border-color: rgba(220, 38, 38, 0.2);
+  color: #dc2626;
+}
+
+.option-correct {
+  background: rgba(22, 163, 74, 0.08);
+  border-color: rgba(22, 163, 74, 0.2);
+  color: #16a34a;
+  font-weight: 500;
+}
+
+.repaso-tag {
+  font-size: 0.7rem;
+  padding: 2px 7px;
+  border-radius: 20px;
+  margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.repaso-tag-wrong {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+}
+
+.repaso-tag-correct {
+  background: rgba(22, 163, 74, 0.12);
+  color: #16a34a;
+}
+
+.repaso-explanation {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-accent);
+  line-height: 1.5;
+}
+.repaso-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Stats */
+.repaso-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.repaso-stat {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  box-shadow: var(--card-shadow);
+  text-align: center;
+}
+
+.repaso-stat-icon {
+  margin-bottom: var(--space-xs);
+}
+
+.repaso-stat-icon.failed {
+  color: var(--color-error);
+}
+
+.repaso-stat-icon.learned {
+  color: var(--color-success);
+}
+
+.repaso-stat-icon.total {
+  color: var(--color-primary);
+}
+
+.repaso-stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.repaso-stat-label {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Progreso */
+.repaso-progress-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--card-shadow);
+}
+
+.repaso-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.repaso-progress-pct {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.repaso-progress-bar {
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.repaso-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+/* Info */
+.repaso-info-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  border-left: 3px solid var(--color-primary);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.repaso-info-card svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Botón principal */
+.repaso-start-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-lg);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark, #0288d1));
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(79, 195, 247, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.repaso-start-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(79, 195, 247, 0.4);
+}
+
+.repaso-start-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.repaso-btn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.repaso-card-footer {
+  padding: 14px 0 4px;
+  display: flex;
+  justify-content: flex-end;
+}

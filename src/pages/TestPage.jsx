@@ -2,18 +2,20 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { testsAPI } from '../services/api';
 import { FiArrowLeft, FiCheck, FiX, FiAward } from 'react-icons/fi';
+import {useLocation } from 'react-router-dom';
+
 import '../styles/pages/TestPage.css';
 
 export default function TestPage() {
   const { documentId } = useParams();
   const navigate = useNavigate();
-
   const [test, setTest] = useState(null);
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     generateTest();
@@ -39,13 +41,15 @@ export default function TestPage() {
     if (!test) return;
     setSubmitting(true);
     try {
-      const submitData = {
-        testId: test.id,
-        answers: Object.entries(answers).map(([questionId, selectedOptionId]) => ({
-          questionId,
-          selectedOptionId,
-        })),
-      };
+    const submitData = {
+      testId: test.id,
+      subjectId: location.state?.subjectId || null,
+      answers: Object.entries(answers).map(([questionId, selectedOptionId]) => ({
+        questionId,
+        selectedOptionId,
+      })),
+    };
+     
       const res = await testsAPI.submit(submitData);
       setResult(res.data);
     } catch (err) {

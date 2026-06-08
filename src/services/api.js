@@ -8,6 +8,34 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+export const ServiceErrorType = {
+  SERVICE_DOWN: 'SERVICE_DOWN',
+  NO_CONNECTION: 'NO_CONNECTION',
+  TIMEOUT: 'TIMEOUT',
+  NO_INTERNET: 'NO_INTERNET',
+};
+
+const getServiceName = (path) => {
+  if (!path) return 'API Gateway (puerto 8080)';
+  if (path.startsWith('/api/auth') || path.startsWith('/api/users')) {
+    return 'Auth Service (puerto 8081)';
+  }
+  if (path.startsWith('/api/subjects') || path.startsWith('/api/enrollments') || path.startsWith('/api/classes')) {
+    return 'Subject Service (puerto 8082)';
+  }
+  if (path.startsWith('/api/documents')) {
+    return 'Document Service (puerto 8083)';
+  }
+  if (path.startsWith('/api/tests') || path.startsWith('/api/repaso')) {
+    return 'Test Service (puerto 8084)';
+  }
+  return 'API Gateway (puerto 8080)';
+};
+
+let onGlobalServiceError = null;
+export const registerErrorListener = (callback) => {
+  onGlobalServiceError = callback;
+};
 
 // Interceptor para añadir token JWT
 api.interceptors.request.use((config) => {
@@ -57,6 +85,10 @@ export const authAPI = {
   login: (data) => api.post('/api/auth/login', data),
   me: () => api.get('/api/auth/me'),
   updateProfile: (data) => api.put('/api/auth/me', data),
+  getUsers: () => api.get('/api/users'),
+  deleteUser: (id) => api.delete(`/api/users/${id}`),
+  getUserById: (id) => api.get(`/api/users/${id}`),
+
 };
 
 // ── Subjects ─────────────────────────────────────────
@@ -67,6 +99,7 @@ export const subjectsAPI = {
   create: (data) => api.post('/api/subjects', data),
   update: (id, data) => api.put(`/api/subjects/${id}`, data),
   delete: (id) => api.delete(`/api/subjects/${id}`),
+  getByClass: (classId) => api.get(`/api/subjects/class/${classId}`),
 };
 
 // ── Enrollments ──────────────────────────────────────
@@ -77,7 +110,6 @@ export const enrollmentsAPI = {
   getBySubject: (subjectId) => api.get(`/api/enrollments/subject/${subjectId}`),
 };
 
-// ── Documents ────────────────────────────────────────
 // ── Documents ────────────────────────────────────
 export const documentsAPI = {
   getBySubject: (subjectId) => api.get(`/api/documents/subject/${subjectId}`),
@@ -103,12 +135,49 @@ export const documentsAPI = {
   createSubtopic: (topicId, name) => api.post('/api/documents/subtopics', { topicId, name }),
 };
 
+
 // ── Tests ────────────────────────────────────────────
 export const testsAPI = {
   generate: (documentId) => api.post(`/api/tests/generate/${documentId}`),
   submit: (data) => api.post('/api/tests/submit', data),
   getMyResults: () => api.get('/api/tests/my-results'),
+  getMyStats: () => api.get('/api/tests/my-stats'),
+  getMyGrades: () => api.get('/api/tests/my-grades'),
+  getSubmissionsByDocument: (documentId) => api.get(`/api/tests/submissions/document/${documentId}`),
+  getSubmissionDetail: (submissionId) => api.get(`/api/tests/submissions/${submissionId}/detail`),
+  updateScore: (submissionId, score) => api.put(`/api/tests/submissions/${submissionId}/score`, { score }),
+  getFeedback: (submissionId) => api.post(`/api/tests/submissions/${submissionId}/feedback`),
+  getSubmissionsByStudentAndSubject: (studentId, subjectId) => 
+  api.get(`/api/tests/submissions/student/${studentId}/subject/${subjectId}`),
 };
+
+// ── Classes ─────────────────────────────────────────────
+export const classesAPI = {
+  getAll: () => api.get('/api/classes'),
+  getById: (id) => api.get(`/api/classes/${id}`),
+  getMy: () => api.get('/api/classes/my'),
+  create: (data) => api.post('/api/classes', data),
+  update: (id, data) => api.put(`/api/classes/${id}`, data),
+  delete: (id) => api.delete(`/api/classes/${id}`),
+  getMembers: (classId) => api.get(`/api/classes/${classId}/members`),
+  addMember: (classId, userId, role) => api.post(`/api/classes/${classId}/members`, { userId, role }),
+  removeMember: (classId, userId) => api.delete(`/api/classes/${classId}/members/${userId}`),
+};
+
+export const repasoAPI = {
+  getStats: () => api.get('/api/repaso/stats'),
+  getBySubject: () => api.get('/api/repaso/subjects'),
+  getStatsBySubject: (subjectId) => api.get(`/api/repaso/stats/${subjectId}`),
+  generate: (subjectId) => api.post(`/api/repaso/generate${subjectId ? `?subjectId=${subjectId}` : ''}`),
+  submit: (answers) => api.post('/api/repaso/submit', answers),
+};
+
+
+// ── Repaso ───────────────────────────────────────────────
+export const getRepaso = () =>
+  api.get('/api/repaso').then(res => res.data);
+
+
 
 
 export default api;

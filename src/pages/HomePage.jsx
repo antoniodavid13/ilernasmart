@@ -6,6 +6,8 @@ import { subjectsAPI, enrollmentsAPI } from '../services/api';
 import Sidebar from '../components/layout/Sidebar';
 import { FiSearch, FiPlus, FiBook, FiMenu, FiGrid, FiList, FiUserPlus, FiSettings } from 'react-icons/fi';
 import '../styles/pages/HomePage.css';
+import { useClass } from '../context/ClassContext';
+// dentro del componente:
 
 export default function HomePage() {
   const { user } = useAuth();
@@ -22,16 +24,24 @@ export default function HomePage() {
   const [enrollSuccess, setEnrollSuccess] = useState('');
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { activeClass } = useClass();
+
 
   useEffect(() => {
     loadSubjects();
   }, []);
-
-  const loadSubjects = async () => {
+const loadSubjects = async () => {
     try {
       if (user?.role === 'student') {
         const res = await enrollmentsAPI.getMy();
-        setSubjects(res.data.map((e, i) => ({ ...e.subject, colorIndex: i })));
+        // Filtrar solo las asignaturas de la clase activa
+        const filtered = res.data.filter(e =>
+          !activeClass || e.subject?.classId === activeClass?.id
+        );
+        setSubjects(filtered.map((e, i) => ({ ...e.subject, colorIndex: i })));
+      } else if (user?.role === 'teacher' && activeClass) {
+        const res = await subjectsAPI.getByClass(activeClass.id);
+        setSubjects(res.data.map((s, i) => ({ ...s, colorIndex: i })));
       } else {
         const res = await subjectsAPI.getAll();
         setSubjects(res.data.map((s, i) => ({ ...s, colorIndex: i })));
@@ -46,7 +56,7 @@ export default function HomePage() {
   const handleCreateSubject = async (e) => {
     e.preventDefault();
     try {
-      await subjectsAPI.create(newSubject);
+      await subjectsAPI.create({ ...newSubject, classId: activeClass?.id });
       setNewSubject({ name: '', description: '' });
       setShowCreateModal(false);
       loadSubjects();

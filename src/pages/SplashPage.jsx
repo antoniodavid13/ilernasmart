@@ -10,7 +10,11 @@ export default function SplashPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (user) {
-        navigate('/home');
+        if (user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/home');
+        }
       } else {
         navigate('/login');
       }

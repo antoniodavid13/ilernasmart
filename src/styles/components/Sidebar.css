@@ -191,3 +191,17 @@
     display: none;
   }
 }
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-class-name {
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

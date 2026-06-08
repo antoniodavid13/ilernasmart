@@ -241,3 +241,101 @@
   background: var(--color-primary);
   color: var(--color-white);
 }
+/* Métricas estudiante */
+.profile-metrics {
+  padding: var(--space-lg);
+}
+
+.profile-metrics-row {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.profile-metric-card {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+}
+
+.profile-metric-card.best {
+  background: linear-gradient(135deg, rgba(255, 202, 40, 0.1), rgba(255, 202, 40, 0.05));
+  border: 1px solid rgba(255, 202, 40, 0.2);
+  color: #f9a825;
+}
+
+.profile-metric-card.average {
+  background: linear-gradient(135deg, rgba(79, 195, 247, 0.1), rgba(79, 195, 247, 0.05));
+  border: 1px solid rgba(79, 195, 247, 0.2);
+  color: var(--color-primary);
+}
+
+.profile-metric-card svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.profile-metric-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-metric-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+}
+
+.profile-metric-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profile-metric-score {
+  font-size: 1.2rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+}
+
+.profile-metric-score.large {
+  font-size: 2rem;
+}
+
+.profile-metric-sub {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* Asignaturas del profesor */
+.profile-subjects-list {
+  padding: var(--space-sm) 0;
+}
+
+.profile-subject-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.profile-subject-item:last-child {
+  border-bottom: none;
+}
+
+.profile-subject-color {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}

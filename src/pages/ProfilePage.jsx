@@ -1,17 +1,56 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+import { testsAPI, subjectsAPI, documentsAPI } from '../services/api';
 import Sidebar from '../components/layout/Sidebar';
-import { FiMenu, FiUser, FiEdit3, FiCheck, FiX } from 'react-icons/fi';
+import { FiMenu, FiUser, FiEdit3, FiCheck, FiX, FiAward, FiTrendingUp } from 'react-icons/fi';
 import '../styles/pages/ProfilePage.css';
 
 export default function ProfilePage() {
   const { user, updateProfile } = useAuth();
+  const { getSubjectColor } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [editingBirth, setEditingBirth] = useState(false);
   const [nameValue, setNameValue] = useState(user?.fullName || '');
   const [birthValue, setBirthValue] = useState(user?.birthDate || '');
   const [saving, setSaving] = useState(false);
+  const [stats, setStats] = useState(null);
+  const [teacherSubjects, setTeacherSubjects] = useState([]);
+
+  useEffect(() => {
+    if (user?.role === 'student') {
+      loadStudentStats();
+    }
+    if (user?.role === 'teacher') {
+      loadTeacherSubjects();
+    }
+  }, [user]);
+
+  const loadStudentStats = async () => {
+    try {
+      const res = await testsAPI.getMyStats();
+      // Intentar obtener nombre del documento
+      if (res.data.bestDocument?.documentId) {
+        try {
+          const docRes = await documentsAPI.getById(res.data.bestDocument.documentId);
+          res.data.bestDocument.title = docRes.data.title;
+        } catch (e) {}
+      }
+      setStats(res.data);
+    } catch (err) {
+      console.error('Error cargando stats:', err);
+    }
+  };
+
+  const loadTeacherSubjects = async () => {
+    try {
+      const res = await subjectsAPI.getByTeacher(user.id);
+      setTeacherSubjects(res.data);
+    } catch (err) {
+      console.error('Error cargando asignaturas:', err);
+    }
+  };
 
   const handleSaveName = async () => {
     if (!nameValue.trim() || nameValue === user?.fullName) {
@@ -51,9 +90,7 @@ export default function ProfilePage() {
     const birth = new Date(birthDate);
     let age = today.getFullYear() - birth.getFullYear();
     const m = today.getMonth() - birth.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
     return age;
   };
 
@@ -173,22 +210,57 @@ export default function ProfilePage() {
                 </table>
               </div>
 
-              {/* Sección según rol */}
+              {/* Estudiante: Métricas */}
               {user?.role === 'student' && (
                 <div className="profile-info-card">
                   <h3 className="profile-info-title">Rendimiento académico</h3>
-                  <div className="profile-metrics-placeholder">
-                    <p>Las métricas de rendimiento estarán disponibles cuando completes tests</p>
-                  </div>
+                  {stats && stats.totalTests > 0 ? (
+                    <div className="profile-metrics">
+                      <div className="profile-metrics-row">
+                        <div className="profile-metric-card best">
+                          <FiAward size={24} />
+                          <div className="profile-metric-info">
+                            <span className="profile-metric-label">Mejor documento</span>
+                            <span className="profile-metric-value">{stats.bestDocument?.title || 'Documento'}</span>
+                            <span className="profile-metric-score">{stats.bestDocument?.averageScore?.toFixed(1)}/10</span>
+                          </div>
+                        </div>
+                        <div className="profile-metric-card average">
+                          <FiTrendingUp size={24} />
+                          <div className="profile-metric-info">
+                            <span className="profile-metric-label">Media general</span>
+                            <span className="profile-metric-score large">{stats.averageScore?.toFixed(1)}/10</span>
+                            <span className="profile-metric-sub">{stats.totalTests} tests realizados</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="profile-metrics-placeholder">
+                      <p>Completa tests para ver tus métricas de rendimiento</p>
+                    </div>
+                  )}
                 </div>
               )}
 
+              {/* Profesor: Asignaturas */}
               {user?.role === 'teacher' && (
                 <div className="profile-info-card">
                   <h3 className="profile-info-title">Asignaturas impartidas</h3>
-                  <div className="profile-metrics-placeholder">
-                    <p>La lista de asignaturas estará disponible en la Fase 3</p>
-                  </div>
+                  {teacherSubjects.length > 0 ? (
+                    <div className="profile-subjects-list">
+                      {teacherSubjects.map((subject, index) => (
+                        <div key={subject.id} className="profile-subject-item">
+                          <div className="profile-subject-color" style={{ background: getSubjectColor(index) }} />
+                          <span>{subject.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="profile-metrics-placeholder">
+                      <p>No tienes asignaturas asignadas</p>
+                    </div>
+                  )}
                 </div>
               )}
             </>

@@ -88,14 +88,19 @@ export default function DocumentViewerPage() {
               </div>
 
               {/* Botón flotante Test (estudiantes Y profesores) */}
-              <button
-                className="viewer-test-fab"
-                onClick={() => navigate(`/test/${id}`)}
-                title="Iniciar Test"
-              >
-                <FiFileText size={22} />
-                <span>Test</span>
-              </button>
+              {/* Botón flotante Test (solo estudiantes) */}
+                {user?.role === 'student' && (
+                  <button
+                    className="viewer-test-fab"
+                    onClick={() => navigate(`/test/${id}`, {
+                      state: { subjectId: document?.subjectId }
+                    })}
+                    title="Iniciar Test"
+                  >
+                    <FiFileText size={22} />
+                    <span>Test</span>
+                  </button>
+                )}
             </>
           )}
         </main>
