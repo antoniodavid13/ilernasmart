@@ -20,8 +20,7 @@ import RepasoSubjectPage from './pages/RepasoSubjectPage';
 
 import { useState, useEffect } from 'react';
 import { registerErrorListener } from './services/api'; // Ajusta la ruta si es necesario
-import { ServiceDownScreen } from './components/ServiceDownScreen';
-
+import ServiceDownScreen from './pages/ServiceDownScreen';
 import './styles/global.css';
 
 function ProtectedRoute({ children }) {

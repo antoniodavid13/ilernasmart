@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { subjectsAPI, enrollmentsAPI } from '../services/api';
 import Sidebar from '../components/layout/Sidebar';
-import { FiSearch, FiPlus, FiBook, FiMenu, FiGrid, FiList, FiUserPlus, FiSettings } from 'react-icons/fi';
+import { FiSearch, FiPlus, FiBook, FiMenu, FiGrid, FiList, FiUserPlus, FiSettings, FiWifiOff } from 'react-icons/fi';
 import '../styles/pages/HomePage.css';
 import { useClass } from '../context/ClassContext';
 // dentro del componente:
@@ -26,6 +26,8 @@ export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { activeClass } = useClass();
 
+  const [networkError, setNetworkError] = useState(false);
+
 
   useEffect(() => {
     loadSubjects();
@@ -46,11 +48,14 @@ const loadSubjects = async () => {
         const res = await subjectsAPI.getAll();
         setSubjects(res.data.map((s, i) => ({ ...s, colorIndex: i })));
       }
-    } catch (err) {
-      console.error('Error cargando asignaturas:', err);
-    } finally {
-      setLoading(false);
-    }
+      } catch (err) {
+        if (!err.response || err.response.status >= 500) {
+          setNetworkError(true);
+        }
+        console.error('Error cargando asignaturas:', err);
+      } finally {
+        setLoading(false);
+      }
   };
 
   const handleCreateSubject = async (e) => {
@@ -136,6 +141,33 @@ const loadSubjects = async () => {
               <div className="home-spinner"></div>
               <p>Cargando asignaturas...</p>
             </div>
+          ) : networkError ? (
+              <div className="home-empty">
+                <FiWifiOff size={48} color="#EF4444" />
+                <p style={{ color: '#EF4444', fontWeight: 600 }}>No se puede conectar con el servidor</p>
+                <p style={{ fontSize: '13px', color: '#9CA3AF', marginTop: 4 }}>
+                  Comprueba que los microservicios están en marcha
+                </p>
+                <button
+                  onClick={() => {
+                    setNetworkError(false);
+                    setLoading(true);
+                    loadSubjects();
+                  }}
+                  style={{
+                    marginTop: 12,
+                    padding: '8px 20px',
+                    backgroundColor: '#2563EB',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: 600
+                  }}
+                >
+                  Reintentar
+                </button>
+              </div>
           ) : filtered.length === 0 ? (
             <div className="home-empty">
               <FiBook size={48} />

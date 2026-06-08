@@ -52,26 +52,43 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // Refresh token (ya lo tienes)
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       const refreshToken = localStorage.getItem('refreshToken');
-
       if (refreshToken) {
         try {
-          const response = await axios.post(`${API_BASE}/api/auth/refresh`, {
-            refreshToken,
-          });
+          const response = await axios.post(`${API_BASE}/api/auth/refresh`, { refreshToken });
           const { accessToken } = response.data;
           localStorage.setItem('accessToken', accessToken);
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return api(originalRequest);
-        } catch (refreshError) {
+        } catch {
           localStorage.clear();
           window.location.href = '/login';
         }
       } else {
         localStorage.clear();
         window.location.href = '/login';
+      }
+    }
+
+    // Detección de microservicio caído
+    if (onGlobalServiceError) {
+      const path = error.config?.url || '';
+      const serviceName = getServiceName(path);
+
+      if (!error.response) {
+        // Sin respuesta — gateway caído o sin internet
+        if (error.message?.includes('Network Error')) {
+          onGlobalServiceError({ type: ServiceErrorType.NO_CONNECTION, serviceName: 'API Gateway (puerto 8080)', code: 0 });
+        } else if (error.code === 'ECONNABORTED') {
+          onGlobalServiceError({ type: ServiceErrorType.TIMEOUT, serviceName, code: 0 });
+        } else {
+          onGlobalServiceError({ type: ServiceErrorType.NO_INTERNET, serviceName: 'Servidor', code: 0 });
+        }
+      } else if ([502, 503, 504].includes(error.response.status)) {
+        onGlobalServiceError({ type: ServiceErrorType.SERVICE_DOWN, serviceName, code: error.response.status });
       }
     }
 

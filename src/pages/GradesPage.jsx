@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useClass } from '../context/ClassContext';
 import { testsAPI, subjectsAPI, documentsAPI, classesAPI, authAPI, enrollmentsAPI } from '../services/api';import Sidebar from '../components/layout/Sidebar';
-import { FiMenu, FiAward, FiChevronDown, FiChevronUp, FiEye, FiUser } from 'react-icons/fi';
+import { FiMenu, FiAward, FiChevronDown, FiChevronUp, FiEye, FiUser, FiWifiOff  } from 'react-icons/fi';
 import '../styles/pages/GradesPage.css';
 
 export default function GradesPage() {
@@ -14,6 +14,8 @@ export default function GradesPage() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const [networkError, setNetworkError] = useState(false);
 
   // Estudiante
   const [grades, setGrades] = useState([]);
@@ -66,11 +68,14 @@ export default function GradesPage() {
         }
       }
       setDocNames(names);
-    } catch (err) {
-      console.error('Error cargando calificaciones:', err);
-    } finally {
-      setLoading(false);
-    }
+      } catch (err) {
+        if (!err.response || err.response.status >= 500) {
+          setNetworkError(true);
+        }
+        console.error('Error cargando calificaciones:', err);
+      } finally {
+        setLoading(false);
+      }
   };
 
   // ── Profesor ────────────────────────────────────────────────────────────────
@@ -86,11 +91,14 @@ export default function GradesPage() {
         subjectsData = res.data;
       }
       setSubjects(subjectsData);
-    } catch (err) {
-      console.error('Error cargando asignaturas:', err);
-    } finally {
-      setLoading(false);
-    }
+      } catch (err) {
+        if (!err.response) {
+          setNetworkError(true);
+        }
+        console.error('Error cargando asignaturas:', err);
+      } finally {
+        setLoading(false);
+      }
   };
 
   const loadSubjectStudents = async (subjectId) => {
@@ -165,12 +173,21 @@ export default function GradesPage() {
         </header>
 
         <main className="grades-main">
-          {loading ? (
-            <div className="grades-loading">
-              <div className="home-spinner"></div>
-              <p>Cargando calificaciones...</p>
-            </div>
-          ) : user?.role === 'student' ? (
+        {loading ? (
+          <div className="grades-loading">
+            <div className="home-spinner"></div>
+            <p>Cargando calificaciones...</p>
+          </div>
+            ) : networkError ? (
+              <div className="grades-empty">
+                <FiWifiOff size={48} color="#EF4444" />
+                <p style={{ color: '#EF4444', fontWeight: 600 }}>Error al cargar las calificaciones</p>
+                <p style={{ fontSize: '13px', color: '#9CA3AF' }}>
+                  El servidor devolvió un error. Comprueba que los microservicios funcionan correctamente.
+                </p>
+                <button>Reintentar</button>
+              </div>
+        ) : user?.role === 'student' ? (
 
             /* ── Vista estudiante ── */
             grades.length === 0 ? (
